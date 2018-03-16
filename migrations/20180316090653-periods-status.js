@@ -36,7 +36,8 @@ exports.up = function(db) {
   return db.runSql('insert into period_status(code, name) ' +
       'values ' +
       '(\'ACTIVE\', \'Активный\'),' +
-      '(\'UNACTIVE\', \'Не активный\');');
+      '(\'UNACTIVE\', \'Не активный\'),' +
+      '(\'DELETE\', \'Удаленный\');');
 };
 
 exports.down = function(db) {
