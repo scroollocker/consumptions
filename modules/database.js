@@ -48,14 +48,16 @@ var query = function (connection, sql, callback) {
                     callback(err);
                 }
                 else {
-                    closeConnection(connection, function (error) {
-                        if (error) {
-                            callback(error);
-                        }
-                        else {
-                            callback(null, res, fields);
-                        }
-                    });
+                    // closeConnection(connection, function (error) {
+                    //     if (error) {
+                    //         callback(error);
+                    //     }
+                    //     else {
+                    //         callback(null, res, fields);
+                    //     }
+                    // });
+
+                    callback(null, res, fields);
                 }
             });
         }
@@ -76,14 +78,16 @@ var queryParam = function (connection, sql, params, callback) {
                     callback(err);
                 }
                 else {
-                    closeConnection(connection, function (err) {
-                        if (err) {
-                            callback(err);
-                        }
-                        else {
-                            callback(null, res, fields);
-                        }
-                    });
+                    // closeConnection(connection, function (err) {
+                    //     if (err) {
+                    //         callback(err);
+                    //     }
+                    //     else {
+                    //         callback(null, res, fields);
+                    //     }
+                    // });
+
+                    callback(null, res, fields);
                 }
             });
         }
