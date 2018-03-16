@@ -1,0 +1,10 @@
+{
+  "dev": {
+    "host": "localhost",
+    "user": "apitest",
+    "password": "apitest",
+    "database": "apitest",
+    "driver": "mysql",
+    "multipleStatements": true
+  }
+}
