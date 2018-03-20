@@ -27,10 +27,11 @@ var getPeriodsByGroup = function (user_id, group_id, callback) {
                                 callback(err);
                             }
                             else {
-                                var sql = 'SELECT gp.group_id, gp.period_id, p.date_start, p.date_end, p.sum, p.owner_id, ps.name ' +
+                                var sql = 'SELECT gp.group_id, gp.period_id, p.date_start, p.date_end, p.sum, p.owner_id, ps.name, u.username ' +
                                     'FROM groups_period AS gp ' +
                                     'INNER JOIN periods AS p ON gp.period_id = p.period_id ' +
                                     'INNER JOIN period_status AS ps ON ps.period_status_id = p.status_id ' +
+                                    'INNER JOIN user as u on u.id = p.owner_id ' +
                                     'WHERE ps.code = \'ACTIVE\' AND gp.group_id = ?;';
                                 var params = [
                                     group_id
