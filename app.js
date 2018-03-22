@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var groups = require('./routes/groups');
+var periods = require('./routes/periods');
 var verifyToken = require('./middlewares/verifyToken');
 
 var app = express();
@@ -26,7 +28,8 @@ app.use('/users', users);
 app.use(verifyToken);
 
 app.use('/', index);
-
+app.use('/groups', groups);
+app.use('/periods', periods);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

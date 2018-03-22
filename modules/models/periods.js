@@ -31,7 +31,7 @@ var getPeriodsByGroup = function (user_id, group_id, callback) {
                                     'FROM groups_period AS gp ' +
                                     'INNER JOIN periods AS p ON gp.period_id = p.period_id ' +
                                     'INNER JOIN period_status AS ps ON ps.period_status_id = p.status_id ' +
-                                    'INNER JOIN user as u on u.id = p.owner_id ' +
+                                    'INNER JOIN users as u on u.id = p.owner_id ' +
                                     'WHERE ps.code = \'ACTIVE\' AND gp.group_id = ?;';
                                 var params = [
                                     group_id
@@ -169,7 +169,7 @@ var deletePeriod = function (user_id, period_id, callback) {
     }
 };
 
-exports.module = {
+module.exports = {
     deletePeriod: deletePeriod,
     createPeriod: createPeriod,
     getPeriodsByGroup: getPeriodsByGroup

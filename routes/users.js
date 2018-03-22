@@ -4,10 +4,11 @@ var User = require('../modules/models/users');
 var tokens = require('../modules/tokens');
 var config = require('../configs');
 var bcrypt = require('bcryptjs');
+var xss = require('xss');
 
 router.post('/register', function(req, res, next) {
 
-    var username = req.body.username;
+    var username = xss(req.body.username);
     var password = req.body.password;
 
     try {
@@ -89,7 +90,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/auth', function (req, res, next) {
-    var username = req.body.username;
+    var username = xss(req.body.username);
     var password = req.body.password;
     try {
         if (username && username.length > 0) {

@@ -34,7 +34,7 @@ var getUsersInGroup = function (group_id, callback) {
                     callback(err);
                 }
                 else {
-                    var sql = 'SELECT ga.group_id, u.username FROM groups_user AS ga ' +
+                    var sql = 'SELECT ga.group_id, u.id, u.username FROM groups_user AS ga ' +
                         'INNER JOIN groups AS g ON ga.group_id = g.groups_id ' +
                         'INNER JOIN users AS u ON u.id = ga.user_id ' +
                         'WHERE ga.group_id = ?;';
