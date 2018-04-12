@@ -279,11 +279,38 @@ var deleteUserFromGroup = function (user_id, group_id, callback) {
     }
 };
 
+var getGroupsById = function (group_id, user_id, callback) {
+    if (callback && typeof callback === 'function') {
+        if (group_id && user_id) {
+            db.openConnection(function (err, connection) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    var sql = 'SELECT ga.group_id, ga.user_id, g.name FROM groups_user AS ga ' +
+                        'INNER JOIN groups AS g ON ga.group_id = g.groups_id ' +
+                        'WHERE ga.user_id = ? and ga.group_id = ? limit 1;';
+
+                    var params = [
+                        user_id, group_id
+                    ];
+
+                    db.queryParam(connection, sql, params, callback);
+                }
+            })
+        }
+    }
+    else {
+        callback(new Error('Params error'));
+    }
+};
+
 module.exports = {
     getGroupsByUserId: getGroupsByUserId,
     addUserToGroup: addUserToGroup,
     createGroup: createGroup,
     getUsersInGroup: getUsersInGroup,
     deleteUserFromGroup: deleteUserFromGroup,
-    deleteGroup: deleteGroup
+    deleteGroup: deleteGroup,
+    getGroupById: getGroupsById
 };

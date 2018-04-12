@@ -10,6 +10,7 @@ router.get('/byUser/:userId', function (req, res, next) {
     var params = {
         userId: parseInt(req.params.userId)
     };
+    // console.log(params);
     validator(params).required().isObject(function(child) {
         child('userId').required().isNumber().integer().isPositive();
     });
@@ -232,6 +233,55 @@ router.post('/deleteUserFrom/:groupId', function (req, res, next) {
                     status: true,
                     message: 'Пользователь удален'
                 });
+            }
+        });
+    }
+});
+
+router.get('/byId/:groupId/:userId', function (req, res, next) {
+    var params = {
+        groupId: parseInt(req.params.groupId),
+        userId: parseInt(req.params.userId)
+    };
+    // console.log(params);
+    validator(params).required().isObject(function(child) {
+        child('userId').required().isNumber().integer().isPositive();
+        child('groupId').required().isNumber().integer().isPositive();
+    });
+
+    const errors = validator.run();
+
+    if (errors.length > 0) {
+        console.log(errors);
+        res.send({
+            status: false,
+            message: 'Неверные параметры запроса'
+        });
+    }
+    else {
+        var userId = req.params.userId;
+        var groupId = req.params.groupId;
+        groups.getGroupById(groupId, userId, function (err, results) {
+            if (err) {
+                console.log(err);
+                res.send({
+                    status: false,
+                    message: 'Произошла ошибка получения данных'
+                });
+            }
+            else {
+                if (results && results.length > 0) {
+                    res.send({
+                        status: true,
+                        group: results[0]
+                    });
+                }
+                else {
+                    res.send({
+                        status: false,
+                        message: 'Произошла ошибка получения данных'
+                    });
+                }
             }
         });
     }

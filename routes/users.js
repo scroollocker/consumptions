@@ -57,11 +57,14 @@ router.post('/register', function(req, res, next) {
                                         });
                                     }
                                     else {
-                                        res.send({
+                                        var payload = {
                                             status: true,
                                             token: token,
-                                            expDate: Math.floor(new Date().getTime() / 1000) + config.token_livetime
-                                        });
+                                            expDate: Math.floor(new Date().getTime() / 1000) + config.token_livetime,
+                                            user_id: userAuth.id
+                                        };
+                                        console.log(payload);
+                                        res.send(payload);
                                     }
                                 });
                             }
@@ -125,7 +128,8 @@ router.post('/auth', function (req, res, next) {
                                 res.send({
                                     status: true,
                                     token: token,
-                                    expDate: Math.floor(new Date().getTime() / 1000) + config.token_livetime
+                                    expDate: Math.floor(new Date().getTime() / 1000) + config.token_livetime,
+                                    user_id: user.id
                                 });
                             }
                         });

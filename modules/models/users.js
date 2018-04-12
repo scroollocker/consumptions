@@ -55,7 +55,11 @@ User.prototype.create = function (callback) {
                                 callback(err);
                             }
                             else {
-                                callback(null);
+                                //callback(null);
+                                self.getByUsername(self.user.username, function (err, regUser) {
+                                    self.user = regUser;
+                                    callback(null);
+                                });
                             }
                         });
                     }
