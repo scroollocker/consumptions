@@ -15,7 +15,12 @@ var getConsumptionsByPeriod = function (period_id, callback) {
                         period_id
                     ];
 
-                    db.queryParam(connection, sql, params, callback);
+                    db.queryParam(connection, sql, params, function (err, results, fields) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
+                        callback(err, results, fields);
+                    });
                 }
             });
         }
@@ -43,6 +48,9 @@ var createConsumpiton = function (user_id, period_id, comment, date, sum, callba
                         period_id
                     ];
                     db.queryParam(connection, sql, params, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
@@ -74,6 +82,9 @@ var deleteConsumption = function (user_id, cons_id, callback) {
                     ];
 
                     db.queryParam(connection, sql, param, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
@@ -107,6 +118,9 @@ var updateConsumption = function (user_id, cons_id, comment, date, sum, callback
                         cons_id
                     ];
                     db.queryParam(connection, sql, params, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }

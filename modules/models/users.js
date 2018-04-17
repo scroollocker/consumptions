@@ -51,13 +51,20 @@ User.prototype.create = function (callback) {
                         ];
 
                         db.queryParam(connection, sql, params, function (err) {
+
                             if (err) {
+                                db.closeConnection(connection, function (err) {
+                                    console.log(err);
+                                });
                                 callback(err);
                             }
                             else {
                                 //callback(null);
                                 self.getByUsername(self.user.username, function (err, regUser) {
                                     self.user = regUser;
+                                    db.closeConnection(connection, function (err) {
+                                        console.log(err);
+                                    });
                                     callback(null);
                                 });
                             }
@@ -97,6 +104,9 @@ User.prototype.update = function () {
                     ];
 
                     db.queryParam(connection, sql, params, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
@@ -128,10 +138,14 @@ User.prototype.getByUsername = function (username, callback) {
                     ];
 
                     db.queryParam(connection, sql, params, function (err, results, fields) {
+
                         if (err) {
                             callback(err);
                         }
                         else {
+                            db.closeConnection(connection, function (err) {
+                                console.log(err);
+                            });
                             if (results.length > 0) {
                                 var user = results[0];
                                 callback(null, user);
@@ -163,6 +177,9 @@ User.prototype.delete = function () {
                     ];
 
                     db.queryParam(connection, sql, params, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
@@ -195,6 +212,9 @@ User.prototype.getById = function (id, callback) {
                     ];
 
                     db.queryParam(connection, sql, params, function (err, res, fields) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
@@ -233,6 +253,9 @@ User.prototype.auth = function (callback) {
                     ];
 
                     db.queryParam(connection, sql, params, function (err, res, fields) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }

@@ -16,7 +16,12 @@ var getGroupsByUserId = function (id, callback) {
                         id
                     ];
 
-                    db.queryParam(connection, sql, params, callback);
+                    db.queryParam(connection, sql, params, function (err, result, fields) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                            callback(null, result, fields);
+                        });
+                    });
                 }
             })
         }
@@ -43,7 +48,14 @@ var getUsersInGroup = function (group_id, callback) {
                         group_id
                     ];
 
-                    db.queryParam(connection, sql, params, callback);
+                    //db.queryParam(connection, sql, params, callback);
+
+                    db.queryParam(connection, sql, params, function (err, result, fields) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                            callback(null, result, fields);
+                        });
+                    });
                 }
             })
         }
@@ -77,6 +89,9 @@ var createGroup = function (name, user_id, callback) {
                                 connection.rollback(function (err) {
                                     console.log(err);
                                 });
+                                db.closeConnection(connection, function (err) {
+                                    console.log(err);
+                                });
                                 callback(err);
                                 return;
                             }
@@ -90,10 +105,16 @@ var createGroup = function (name, user_id, callback) {
                                     connection.rollback(function (err) {
                                         console.log(err);
                                     });
+                                    db.closeConnection(connection, function (err) {
+                                        console.log(err);
+                                    });
                                     callback(err);
                                 }
                                 else {
                                     connection.commit(function (err) {
+                                        db.closeConnection(connection, function (err) {
+                                            console.log(err);
+                                        });
                                         if (err) {
                                             callback(err);
                                         }
@@ -127,6 +148,9 @@ var addUserToGroup = function (group_id, user_id, callback) {
                     self.getGroupsByUserId(user_id, function (err, result, fields) {
                         if (err) {
                             callback(err);
+                            db.closeConnection(connection, function (err) {
+                                console.log(err);
+                            });
                             return;
                         }
                         var found = false;
@@ -143,6 +167,9 @@ var addUserToGroup = function (group_id, user_id, callback) {
                                     user_id
                                 ];
                                 db.queryParam(connection, sql, params, function (err) {
+                                    db.closeConnection(connection, function (err) {
+                                        console.log(err);
+                                    });
                                     if (err) {
                                         callback(err);
                                     }
@@ -177,6 +204,9 @@ var deleteGroup = function (user_id, group_id, callback) {
                     self.getGroupsByUserId(user_id, function (err, result, fields) {
                         if (err) {
                             callback(err);
+                            db.closeConnection(connection, function (err) {
+                                console.log(err);
+                            });
                             return;
                         }
                         var found = false;
@@ -189,6 +219,9 @@ var deleteGroup = function (user_id, group_id, callback) {
                             if (found) {
                                 connection.beginTransaction(function (err) {
                                     if (err) {
+                                        db.closeConnection(connection, function (err) {
+                                            console.log(err);
+                                        });
                                         callback(err);
                                         return;
                                     }
@@ -199,6 +232,9 @@ var deleteGroup = function (user_id, group_id, callback) {
                                     db.queryParam(connection, sql, params, function (err) {
                                         if (err) {
                                             connection.rollback(function (err) {
+                                                console.log(err);
+                                            });
+                                            db.closeConnection(connection, function (err) {
                                                 console.log(err);
                                             });
                                             callback(err);
@@ -213,10 +249,16 @@ var deleteGroup = function (user_id, group_id, callback) {
                                                     connection.rollback(function (err) {
                                                         console.log(err);
                                                     });
+                                                    db.closeConnection(connection, function (err) {
+                                                        console.log(err);
+                                                    });
                                                     callback(err);
                                                 }
                                                 else {
                                                     connection.commit(function (err) {
+                                                        db.closeConnection(connection, function (err) {
+                                                            console.log(err);
+                                                        });
                                                         if (err) {
                                                             callback(err);
                                                         }
@@ -263,6 +305,9 @@ var deleteUserFromGroup = function (user_id, group_id, callback) {
                     ];
 
                     db.queryParam(connection, sql, params, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
@@ -295,7 +340,14 @@ var getGroupsById = function (group_id, user_id, callback) {
                         user_id, group_id
                     ];
 
-                    db.queryParam(connection, sql, params, callback);
+                    //db.queryParam(connection, sql, params, callback);
+
+                    db.queryParam(connection, sql, params, function (err, result, fields) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                            callback(null, result, fields);
+                        });
+                    });
                 }
             })
         }

@@ -36,7 +36,17 @@ var getPeriodsByGroup = function (user_id, group_id, callback) {
                                 var params = [
                                     group_id
                                 ];
-                                db.queryParam(connection, sql, params, callback);
+                                db.queryParam(connection, sql, params, function (err, result, fields) {
+                                    if (err) {
+                                        callback(err);
+                                    }
+                                    else {
+                                        db.closeConnection(connection, function (err) {
+                                            console.log(err);
+                                            callback(null, result, fields);
+                                        });
+                                    }
+                                });
                             }
                         });
                     }
@@ -79,6 +89,9 @@ var createPeriod = function (user_id, group_id, date_start, date_end, sum, callb
                                 connection.beginTransaction(function (err) {
                                     if (err) {
                                         callback(err);
+                                        db.closeConnection(connection, function (err) {
+                                            console.log(err);
+                                        });
                                         return;
                                     }
 
@@ -91,6 +104,9 @@ var createPeriod = function (user_id, group_id, date_start, date_end, sum, callb
                                     ];
 
                                     db.queryParam(connection, sql, params, function (err, result) {
+                                        db.closeConnection(connection, function (err) {
+                                            console.log(err);
+                                        });
                                         if (err) {
                                             connection.rollback(function (err) {
                                                console.log(err);
@@ -110,10 +126,16 @@ var createPeriod = function (user_id, group_id, date_start, date_end, sum, callb
                                                 connection.rollback(function (err) {
                                                     console.log(err);
                                                 });
+                                                db.closeConnection(connection, function (err) {
+                                                    console.log(err);
+                                                });
                                                 callback(err);
                                             }
                                             else {
                                                 connection.commit(function (err) {
+                                                    db.closeConnection(connection, function (err) {
+                                                        console.log(err);
+                                                    });
                                                    if (err) {
                                                        callback(err);
                                                    }
@@ -153,6 +175,9 @@ var deletePeriod = function (user_id, period_id, callback) {
                     ];
 
                     db.queryParam(connection, sql, params, function (err) {
+                        db.closeConnection(connection, function (err) {
+                            console.log(err);
+                        });
                         if (err) {
                             callback(err);
                         }
